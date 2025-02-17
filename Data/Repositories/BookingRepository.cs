@@ -58,7 +58,8 @@ public class BookingRepository(DataContext context) : BaseRepository<BookingsEnt
         try
         {
             var bookings = await _context.Bookings
-                .Where(x => x.Payments.Any(x => x.PaymentStatusId == paymentStatusId))
+                .Include(b => b.Payments)
+                .Where(x => x.Payments.Any(p => p.PaymentStatusId == paymentStatusId))
                 .ToListAsync();
             return bookings;
         }
