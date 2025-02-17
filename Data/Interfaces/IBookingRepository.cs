@@ -4,7 +4,11 @@ namespace Data.Interfaces;
 
 public interface IBookingRepository : IBaseRepository<BookingsEntity>
 {
-    // Musterı adına göre rezervasyonları getirir.
-    // Get bookings by customer name.
-    Task<IEnumerable<BookingsEntity>> GetBookingByCustomerName(string username); 
+    // CheckIn tarihine göre rezervasyonları getirir.
+    // Get bookings by check-in date.
+    Task<IEnumerable<BookingsEntity>> GetByCheckInDateAsync(DateTime checkInDate);
+
+    // Belli bir tarih aralığındaki rezervasyonları getirir.
+    // Get bookings between a certain date range.
+    Task<IEnumerable<BookingsEntity>> GetBookingsBetweenDateAsync(DateTime startDate, DateTime endDate);
 }
