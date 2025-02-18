@@ -31,6 +31,9 @@ public class UserFactory
 
     public static void Update(UsersEntity entity, UserUpdateForm form)
     {
+        if (form.Id != entity.Id)
+            throw new Exception("Ids do not match");
+
         if (!string.IsNullOrEmpty(form.UserName))
             entity.UserName = form.UserName;
 

@@ -9,7 +9,14 @@ public static class PasswordHasher
     {
         using var hmac = new HMACSHA512();
         var salt = Convert.ToBase64String(hmac.Key);
-        var hash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(password)));
+        var hash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(password + salt)));
         return (hash, salt);
+    }
+
+    public static bool VerifyPassword(string password, string storedHash, string storedSalt)
+    {
+        using var hmac = new HMACSHA512(Convert.FromBase64String(storedSalt));
+        var computedHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(password + storedSalt)));
+        return computedHash == storedHash;
     }
 }
