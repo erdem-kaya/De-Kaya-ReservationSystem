@@ -15,7 +15,12 @@ public class UserService(IUserRepository userRepository) : IUserService
     {
         try
         {
-            var user = await _userRepository.GetAsync(u => u.Email == email) ?? throw new UnauthorizedAccessException("User not found.");
+            var user = await _userRepository.AuthenticateAsync(email);
+            if (user == null)
+                throw new UnauthorizedAccessException("User not found.");
+
+            // Şifre doğrulama burada yapılıyor
+            // Password verification is done here
             var isPasswordValid = PasswordHasher.VerifyPassword(password, user.PasswordHash, user.PasswordSalt);
             if (!isPasswordValid)
                 throw new UnauthorizedAccessException("Invalid credentials.");
