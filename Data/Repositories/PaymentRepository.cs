@@ -37,4 +37,18 @@ public class PaymentRepository(DataContext context) : BaseRepository<PaymentsEnt
             return 0;
         }
     }
+
+    public async Task<IEnumerable<PaymentsEntity>> GetPaymentSummariesAsync()
+    {
+        try
+        {
+            var payments = await _context.Payments.ToListAsync();
+            return payments;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error getting payment summaries: {ex.Message}");
+            return [];
+        }
+    }
 }

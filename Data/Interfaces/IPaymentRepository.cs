@@ -10,5 +10,11 @@ public interface IPaymentRepository : IBaseRepository<PaymentsEntity>
 
     // Rezervasyon ID'sine göre ödemeleri getirir.
     // Get payments by booking ID.
-    Task<IEnumerable<PaymentsEntity>> GetPaymentsByBookingIdAsync(int bookingId); 
+    Task<IEnumerable<PaymentsEntity>> GetPaymentsByBookingIdAsync(int bookingId);
+
+    // Ödeme özetlerini getirir.
+    // Get payment summaries.
+    Task<IEnumerable<PaymentsEntity>> GetPaymentSummariesAsync();
+
+
 }

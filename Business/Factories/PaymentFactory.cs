@@ -5,7 +5,7 @@ namespace Business.Factories;
 
 public class PaymentFactory
 {
-    public static PaymentsEntity Create(PaymentForm form) => new()
+    public static PaymentsEntity Create(PaymentRegistrationForm form) => new()
     {
         PaymentDate = form.PaymentDate,
         Amount = form.Amount,
@@ -30,7 +30,7 @@ public class PaymentFactory
 
     public static PaymentsEntity Update(PaymentsEntity entity, PaymentUpdateForm form)
     {
-        entity.Id = form.Id;
+        
         entity.PaymentDate = form.PaymentDate;
         entity.Amount = form.Amount;
         entity.PaymentMethod = form.PaymentMethod;
@@ -55,5 +55,8 @@ public class PaymentFactory
         PaymentMethod = entity.PaymentMethod,
         PrePayment = entity.PrePayment,
         ConfirmedAt = entity.ConfirmedAt,
+        PaymentStatusId = entity.PaymentStatusId,
+        BookingId = entity.BookingId
+
     };
 }
