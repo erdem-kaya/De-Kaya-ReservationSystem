@@ -15,9 +15,7 @@ public class UserService(IUserRepository userRepository) : IUserService
     {
         try
         {
-            var user = await _userRepository.AuthenticateAsync(email);
-            if (user == null)
-                throw new UnauthorizedAccessException("User not found.");
+            var user = await _userRepository.AuthenticateAsync(email) ?? throw new UnauthorizedAccessException("User not found.");
 
             // Şifre doğrulama burada yapılıyor
             // Password verification is done here
