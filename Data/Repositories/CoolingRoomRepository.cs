@@ -46,4 +46,27 @@ public class CoolingRoomRepository(DataContext context) : BaseRepository<Cooling
             return 0;
         }
     }
+
+    public async Task<bool> UpdateAllCoolingRoomPricesAsync(decimal newPrice)
+    {
+        try
+        {
+            var coolingRooms = await _context.CoolingRooms.ToListAsync();
+            
+            if(!coolingRooms.Any())
+                return false;
+
+            foreach (var room in coolingRooms)
+                room.UnitPrice = newPrice;
+
+            await _context.SaveChangesAsync();
+            return true;
+
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error updating all cooling room prices : {ex.Message}");
+            return false;
+        }
+    }
 }
