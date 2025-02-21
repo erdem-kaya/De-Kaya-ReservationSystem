@@ -20,9 +20,16 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+
+builder.Services.AddScoped<ICoolingRoomRepository, CoolingRoomRepository>();
+builder.Services.AddScoped<ICoolingRoomService, CoolingRoomService>();
+
+builder.Services.AddScoped<ICoolingRoomInventoryRepository, CoolingRoomInventoryRepository>();
+builder.Services.AddScoped<ICoolingRoomInventoryService, CoolingRoomInventoryService>();
+
 var app = builder.Build();
-
-
 
 app.MapOpenApi();
 app.UseHttpsRedirection();
