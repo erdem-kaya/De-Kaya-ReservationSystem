@@ -46,7 +46,7 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
         catch (Exception ex)
         {
             Debug.WriteLine($"Error getting all customers: {ex.Message}");
-            return null!;
+            return [];
         }
     }
 

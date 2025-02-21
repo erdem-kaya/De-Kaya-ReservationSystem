@@ -4,6 +4,9 @@ namespace Data.Interfaces;
 
 public interface IBookingRepository : IBaseRepository<BookingsEntity>
 {
+    // Toplam rezervasyonları getirir.
+    // Get all bookings.
+    Task<IEnumerable<BookingsEntity>> GetBookingSummariesAsync();
     // CheckIn tarihine göre rezervasyonları getirir.
     // Get bookings by check-in date.
     Task<IEnumerable<BookingsEntity>> GetByCheckInDateAsync(DateTime checkInDate);
@@ -19,4 +22,6 @@ public interface IBookingRepository : IBaseRepository<BookingsEntity>
     // Ödeme durumuna göre rezervasyonları getirir.
     // Get bookings by payment status.
     Task<IEnumerable<BookingsEntity>> GetBookingsByPaymentStatusAsync(int paymentStatusId);
+
+
 }
