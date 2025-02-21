@@ -15,15 +15,17 @@ public class UserService(IUserRepository userRepository) : IUserService
     {
         try
         {
-            var user = await _userRepository.AuthenticateAsync(email) ?? throw new UnauthorizedAccessException("User not found.");
+            var user = await _userRepository.GetAsync(u => u.Email == email) ?? throw new UnauthorizedAccessException("User not found.");
+            if (user == null)
+                return null;
 
-            // Şifre doğrulama burada yapılıyor
-            // Password verification is done here
-            var isPasswordValid = PasswordHasher.VerifyPassword(password, user.PasswordHash, user.PasswordSalt);
+            var isPasswordValid = UserFactory.VerifyPassword(user, password);
             if (!isPasswordValid)
-                throw new UnauthorizedAccessException("Invalid credentials.");
+                return null;
 
             return UserFactory.Create(user);
+
+
         }
         catch (Exception ex)
         {
@@ -36,11 +38,18 @@ public class UserService(IUserRepository userRepository) : IUserService
     {
         try
         {
-            var user = await _userRepository.GetAsync(u => u.Id == userId) ?? throw new Exception($"User with ID {userId} not found.");
-            var isCurrentPasswordValid = PasswordHasher.VerifyPassword(currentPassword, user.PasswordHash, user.PasswordSalt);
-            if (!isCurrentPasswordValid)
-                throw new UnauthorizedAccessException("Current password is incorrect.");
+            var user = await _userRepository.GetAsync(u => u.Id == userId);
+            if (user == null)
+                return false;
 
+            // Eski şifreyi doğrula
+            // Verify old password
+            var isCurrentPasswordValid = UserFactory.VerifyPassword(user, currentPassword);
+            if (!isCurrentPasswordValid)
+                return false;
+
+            // Yeni şifreyi hashle ve kaydet
+            // Hash and save new password
             var (hashedPassword, salt) = PasswordHasher.HashPassword(newPassword);
             user.PasswordHash = hashedPassword;
             user.PasswordSalt = salt;

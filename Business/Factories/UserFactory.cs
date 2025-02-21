@@ -51,4 +51,10 @@ public class UserFactory
             entity.RoleId = form.RoleId.Value;
     }
 
+    public static bool VerifyPassword(UsersEntity entity, string password)
+    {
+        return PasswordHasher.VerifyPassword(password, entity.PasswordHash, entity.PasswordSalt);
+    }
+        
+
 }
