@@ -2,6 +2,7 @@
 using Business.Models.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Helpers;
 
 namespace WebApp.Controllers
 {
@@ -73,6 +74,19 @@ namespace WebApp.Controllers
 
             return Ok(authenticatedUser);
         }
+
+        //public async Task<IActionResult> AuthenticateAsync([FromBody] UserLoginForm form)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest("Invalid login request.");
+
+        //    var authenticatedUser = await _userService.AuthenticateAsync(form.Email, form.Password);
+        //    if (authenticatedUser == null)
+        //        return Unauthorized("Invalid email or password.");
+
+        //    var token = JwtTokenGenerator.GenerateToken(authenticatedUser.Email, "User");
+        //    return Ok(new { Token = token });
+        //}
 
         [HttpPut("{id}/change-password")]
         public async Task<IActionResult> ChangePasswordAsync(int id, [FromBody] ChangePasswordForm form)

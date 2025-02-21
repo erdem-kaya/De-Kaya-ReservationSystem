@@ -29,6 +29,9 @@ builder.Services.AddScoped<ICoolingRoomService, CoolingRoomService>();
 builder.Services.AddScoped<ICoolingRoomInventoryRepository, CoolingRoomInventoryRepository>();
 builder.Services.AddScoped<ICoolingRoomInventoryService, CoolingRoomInventoryService>();
 
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+
 var app = builder.Build();
 
 app.MapOpenApi();
