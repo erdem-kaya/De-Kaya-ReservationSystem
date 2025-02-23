@@ -62,6 +62,18 @@ namespace WebApp.Controllers
             return deleted ? Ok("User deleted") : NotFound($"User with id {id} not found.");
         }
 
+        
+        //public async Task<IActionResult> AuthenticateAsync([FromBody] UserLoginForm form)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest("Invalid login request.");
+
+        //    var authenticatedUser = await _userService.AuthenticateAsync(form.Email, form.Password);
+        //    if (authenticatedUser == null)
+        //        return Unauthorized("Invalid email or password.");
+
+        //    return Ok(authenticatedUser);
+        //}
         [HttpPost("login")]
         public async Task<IActionResult> AuthenticateAsync([FromBody] UserLoginForm form)
         {
@@ -72,21 +84,9 @@ namespace WebApp.Controllers
             if (authenticatedUser == null)
                 return Unauthorized("Invalid email or password.");
 
-            return Ok(authenticatedUser);
+            var token = JwtTokenGenerator.GenerateToken(authenticatedUser.Email, "User");
+            return Ok(new { Token = token });
         }
-
-        //public async Task<IActionResult> AuthenticateAsync([FromBody] UserLoginForm form)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest("Invalid login request.");
-
-        //    var authenticatedUser = await _userService.AuthenticateAsync(form.Email, form.Password);
-        //    if (authenticatedUser == null)
-        //        return Unauthorized("Invalid email or password.");
-
-        //    var token = JwtTokenGenerator.GenerateToken(authenticatedUser.Email, "User");
-        //    return Ok(new { Token = token });
-        //}
 
         [HttpPut("{id}/change-password")]
         public async Task<IActionResult> ChangePasswordAsync(int id, [FromBody] ChangePasswordForm form)

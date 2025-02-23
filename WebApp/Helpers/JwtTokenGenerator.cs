@@ -15,7 +15,8 @@ public static class JwtTokenGenerator
             new Claim(ClaimTypes.Role, role)
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSuperSecretKeyHere"));
+        // 🔹 En az 32 karakterlik bir key kullan
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSuperSecretKeyHere1234567890!@#"));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
@@ -29,4 +30,5 @@ public static class JwtTokenGenerator
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
+
 

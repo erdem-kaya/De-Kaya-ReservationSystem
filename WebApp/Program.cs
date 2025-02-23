@@ -1,4 +1,4 @@
-using Business.Interfaces;
+﻿using Business.Interfaces;
 using Business.Services;
 using Data.Contexts;
 using Data.Interfaces;
@@ -9,8 +9,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
+
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // React Uygulamanın URL'si
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .AllowCredentials();
+        });
+});
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Projects\DeKayaReservationSystem\Data\Database\reservationsystem.mdf;Integrated Security=True;Connect Timeout=30"));
 
@@ -34,8 +47,9 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 
 var app = builder.Build();
 
-app.MapOpenApi();
+//app.MapOpenApi();
 app.UseHttpsRedirection();
+app.UseCors("AllowReactApp");
 app.UseAuthorization();
 app.MapControllers();
 
